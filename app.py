@@ -30,3 +30,8 @@ def login():
         erro = "Usuário ou senha inválido"
     return render_template('login.html', erro=erro)
 
+@app.route('/logout')
+def logout():
+    session.pop('logado')
+    flash("Logout efetuado com sucesso")
+    return redirect(url_for('exibir_entradas'))
