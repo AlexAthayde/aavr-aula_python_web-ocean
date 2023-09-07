@@ -16,7 +16,7 @@ posts = [
 
 @app.route('/')
 def exibir_entradas():
-    entradas = posts # Mock das postagens
+    entradas = posts[::-1] # Mock das postagens
     return render_template('exibir_entradas.html', entradas=entradas)
 
 @app.route('/login', methods=['GET','POST'])
@@ -34,4 +34,15 @@ def login():
 def logout():
     session.pop('logado')
     flash("Logout efetuado com sucesso")
+    return redirect(url_for('exibir_entradas'))
+
+@app.route('/inserir', methods=['POST'])
+def inserir_entradas():
+    if session['logado']:
+        novo_post = {
+            "titulo" : request.form['titulo'],
+            "texto": request.form['texto']
+        }
+        posts.append(novo_post)
+        flash("Post criado com sucesso")
     return redirect(url_for('exibir_entradas'))
