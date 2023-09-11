@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request, session, abort, flash, redirect, url_for
 from posts import posts
+import sqlite3
 
 app = Flask("Meu App")
 app.config['SECRET_KEY'] = 'pudim'
+
+app.config.from_object(__name__)
+
+DATABASE = "banco.db"
+
+def conectar():
+    return sqlite3.connect(DATABASE)
 
 @app.route('/')
 def exibir_entradas():
